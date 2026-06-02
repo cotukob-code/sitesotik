@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/donations/latest", "destination": "/api/donations/latest.js" },
+    { "source": "/api/donations",        "destination": "/api/donations/index.js"  },
+    { "source": "/api/messages",         "destination": "/api/messages.js"         }
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "memory": 512,
+      "maxDuration": 10
+    }
+  }
+}

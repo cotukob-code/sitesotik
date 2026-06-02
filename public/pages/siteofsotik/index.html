@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="СайтСотика — стрим, чатик, страницы">
+  <title>СайтСотика — Главная</title>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+</head>
+<body>
+
+<div class="bg-orbit" aria-hidden="true"></div>
+<div class="bg-grid"  aria-hidden="true"></div>
+<div class="bg-lines" aria-hidden="true"></div>
+
+<div class="page-shell">
+
+  <header class="header" role="banner">
+    <div class="header-left">
+      <div class="header-title">СайтСотика</div>
+      <div class="header-sub">стрим · чатик · страницы</div>
+    </div>
+
+    <nav class="header-nav" aria-label="Навигация">
+      <a href="#">Главная</a>
+      <a href="#">Обо мне</a>
+      <a href="#">Игры</a>
+      <a href="#">Команда</a>
+      <a href="#">Партнёры</a>
+    </nav>
+  </header>
+
+  <main class="content" role="main">
+
+    <section class="panel panel-stream" aria-label="Стрим">
+      <div class="stream-title">стрим</div>
+      <div class="stream-box">
+        <video src="" controls autoplay muted aria-label="Трансляция"></video>
+      </div>
+    </section>
+
+    <section class="panel panel-chat" aria-label="Чат">
+      <div class="chat-title">чатиксотика</div>
+
+      <div class="chat-box">
+
+        <div id="nameSetup" class="name-setup" hidden>
+          <input id="nameInput" type="text"
+                 placeholder="Введите НИК или ИМЯ и ФАМИЛИЮ"
+                 maxlength="64"
+                 autocomplete="nickname"
+                 aria-label="Введите ваше имя">
+          <button onclick="saveName()">OK</button>
+        </div>
+
+        <div class="chat-messages" id="chat" role="log" aria-live="polite" aria-label="Сообщения чата"></div>
+
+        <div id="bankTabs" class="bank-tabs" hidden>
+          <button class="bank-tab" onclick="toggleDonateContent('Сбер')">Сбер</button>
+          <button class="bank-tab" onclick="toggleDonateContent('Т‑Банк')">Т‑Банк</button>
+          <button class="bank-tab" onclick="toggleDonateContent('ВТБ')">ВТБ</button>
+          <button class="bank-tab" onclick="toggleDonateContent('ЮMoney')">ЮMoney</button>
+        </div>
+
+        <div id="donateContent"></div>
+
+        <div class="chat-input">
+          <label class="donate-label">
+            <input type="checkbox" id="donateFlag" onchange="toggleBanks()">
+            <span>донат</span>
+          </label>
+
+          <input id="msg" type="text"
+                 placeholder="Сначала введите имя..."
+                 maxlength="1000"
+                 disabled
+                 aria-label="Сообщение в чат">
+          <button id="sendBtn" onclick="sendMsg()" disabled>OK</button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

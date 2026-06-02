@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="СайтСотика — три окна, один хаб. Стрим, донаты, аукцион.">
+  <title>Хаб — СайтСотика</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<!-- ФОН -->
+<div class="bg-orbit" aria-hidden="true"></div>
+<div class="bg-grid"  aria-hidden="true"></div>
+<div class="bg-lines" aria-hidden="true"></div>
+
+<!-- ХАБ -->
+<div class="hub-frame">
+
+  <!-- ШАПКА -->
+  <header class="hub-header" role="banner">
+    <div class="hub-logo">
+      <span class="hub-logo-main">СайтСотика</span>
+      <span class="hub-logo-sub">хаб 2026</span>
+    </div>
+    <p class="hub-header-center">три окна · один хаб</p>
+    <div class="hub-header-marquee" aria-live="off">
+      <span id="marquee-text">Сбербанк Донат</span>
+    </div>
+  </header>
+
+  <!-- ОСНОВНАЯ СЕТКА -->
+  <main class="hub-main" role="main">
+
+    <!-- ОКНО 1 -->
+    <section class="hub-column" data-window-open="site" role="button" tabindex="0"
+             aria-label="Открыть окно: СайтСотика">
+      <header class="hub-column-header">
+        <div class="hub-column-label">окно 1</div>
+        <div class="hub-column-title">сайтсотика</div>
+      </header>
+      <div class="hub-column-main">
+        <iframe class="hub-column-iframe"
+                src="pages/siteofsotik/index.html"
+                title="СайтСотика — предпросмотр"
+                loading="lazy"></iframe>
+        <div class="hub-column-overlay-label" aria-hidden="true">открыть сайт</div>
+      </div>
+      <footer class="hub-column-footer">
+        <span>основной сайт</span>
+        <span>стрим</span>
+      </footer>
+    </section>
+
+    <!-- ОКНО 2 -->
+    <section class="hub-column" data-window-open="donate" role="button" tabindex="0"
+             aria-label="Открыть окно: Донаты">
+      <header class="hub-column-header">
+        <div class="hub-column-label">окно 2</div>
+        <div class="hub-column-title">донаты</div>
+      </header>
+      <div class="hub-column-main">
+        <div class="hub-column-main-ghost"></div>
+        <div class="hub-column-overlay-label" aria-hidden="true">открыть донаты</div>
+      </div>
+      <footer class="hub-column-footer">
+        <span>донат</span>
+        <span>интерфейс</span>
+      </footer>
+    </section>
+
+    <!-- ОКНО 3 -->
+    <section class="hub-column" data-window-open="auction" role="button" tabindex="0"
+             aria-label="Открыть окно: Аукцион">
+      <header class="hub-column-header">
+        <div class="hub-column-label">окно 3</div>
+        <div class="hub-column-title">аукцион</div>
+      </header>
+      <div class="hub-column-main">
+        <div class="hub-column-main-ghost"></div>
+        <div class="hub-column-overlay-label" aria-hidden="true">открыть аукцион</div>
+      </div>
+      <footer class="hub-column-footer">
+        <span>аукцион</span>
+        <span>дом 43 сотки</span>
+      </footer>
+    </section>
+
+  </main>
+
+</div>
+
+<!-- ПОЛНОЭКРАННЫЕ ОКНА -->
+
+<!-- ОКНО 1 -->
+<div class="hub-window-layer" data-window="site" role="dialog"
+     aria-modal="true" aria-label="СайтСотика — fullscreen" hidden>
+  <div class="hub-window-shell">
+    <header class="hub-window-header">
+      <div class="hub-window-title-block">
+        <div class="hub-window-kicker">окно 1</div>
+        <div class="hub-window-title">СайтСотика</div>
+      </div>
+      <button class="hub-window-close" data-window-close aria-label="Закрыть окно">✕</button>
+    </header>
+    <div class="hub-window-body">
+      <div class="hub-window-iframe-wrap">
+        <iframe class="hub-window-iframe"
+                src="pages/siteofsotik/index.html"
+                title="СайтСотика — полный экран"></iframe>
+      </div>
+    </div>
+    <footer class="hub-window-footer">СайтСотика</footer>
+  </div>
+</div>
+
+<!-- ОКНО 2 -->
+<div class="hub-window-layer" data-window="donate" role="dialog"
+     aria-modal="true" aria-label="Донаты — fullscreen" hidden>
+  <div class="hub-window-shell">
+    <header class="hub-window-header">
+      <div class="hub-window-title-block">
+        <div class="hub-window-kicker">окно 2</div>
+        <div class="hub-window-title">Донаты</div>
+      </div>
+      <button class="hub-window-close" data-window-close aria-label="Закрыть окно">✕</button>
+    </header>
+    <div class="hub-window-body">
+      <div class="hub-window-iframe-wrap">
+        <iframe class="hub-window-iframe"
+                src="pages/donate/index.html"
+                title="Донаты — полный экран"></iframe>
+      </div>
+    </div>
+    <footer class="hub-window-footer">донаты</footer>
+  </div>
+</div>
+
+<!-- ОКНО 3 -->
+<div class="hub-window-layer" data-window="auction" role="dialog"
+     aria-modal="true" aria-label="Аукцион — fullscreen" hidden>
+  <div class="hub-window-shell">
+    <header class="hub-window-header">
+      <div class="hub-window-title-block">
+        <div class="hub-window-kicker">окно 3</div>
+        <div class="hub-window-title">Аукцион</div>
+      </div>
+      <button class="hub-window-close" data-window-close aria-label="Закрыть окно">✕</button>
+    </header>
+    <div class="hub-window-body">
+      <div class="hub-window-iframe-wrap">
+        <iframe class="hub-window-iframe"
+                src="/s2.html"
+                title="Аукцион — полный экран"></iframe>
+      </div>
+    </div>
+    <footer class="hub-window-footer">аукцион</footer>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

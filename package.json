@@ -1,0 +1,11 @@
+{
+  "name": "sitesotik",
+  "version": "1.0.0",
+  "description": "СайтСотика — Хаб 2026",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "pg": "^8.11.3"
+  }
+}

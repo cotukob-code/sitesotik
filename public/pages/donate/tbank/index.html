@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тинькофф · Донат</title>
+    <meta name="description" content="Поддержи проект через Тинькофф. Спасибо за каждый донат!">
+
+    <style>
+        :root {
+            --bg: #02030a;
+            --bg2: #050616;
+            --card: #0b0c18;
+            --accent: #ff9900;
+            --accent2: #ff4b00;
+            --text: #f5f5f5;
+            --muted: #9a9ab5;
+            --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --glass: rgba(10,10,25,0.82);
+            --border: #262637;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            user-select: none;
+            overflow-x: hidden;
+        }
+
+        body {
+            min-height: 100%;
+            background: var(--bg);
+            color: var(--text);
+            position: relative;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Стилизация скроллбара */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent2);
+        }
+
+        .header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .subheader {
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .donate-info {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        .donate-info strong {
+            color: var(--accent);
+        }
+
+        /* Бегущая строка */
+        .ticker-container {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 12px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ticker-track {
+            display: flex;
+            white-space: nowrap;
+            animation: scroll 20s linear infinite;
+        }
+
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 20px;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .ticker-item strong {
+            color: var(--accent);
+        }
+
+        .ticker-icon {
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: var(--bg);
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .footer {
+            margin-top: auto;
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+            padding: 10px;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+
+            .header {
+                font-size: 20px;
+            }
+
+            .donate-info {
+                font-size: 15px;
+                padding: 16px;
+            }
+
+            .ticker-item {
+                padding: 0 16px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">💸 Донат через Тинькофф</div>
+    <div class="subheader">Благодарим за вашу поддержку!</div>
+
+    <div class="donate-info">
+        Переведите любую сумму на карту <strong>2200 0000 0000 0003</strong><br>
+        Спасибо за каждый донат — вы делаете проект лучше!
+    </div>
+
+    <div class="ticker-container">
+        <div class="ticker-track">
+            <!-- Данные будут вставлены через JS -->
+        </div>
+    </div>
+
+    <div class="footer">© 2025 СайтСотика. Все донаты идут на развитие проекта.</div>
+
+    <script>
+        // Данные донатов для Тинькофф
+        const donations = [
+            { message: "Марк", amount: 1000 },
+            { message: "Алиса", amount: 1500 },
+            { message: "Даниил", amount: 2000 },
+            { message: "Вероника", amount: 800 },
+            { message: "Артём", amount: 1200 },
+            { message: "Ксения", amount: 900 },
+            { message: "Игорь", amount: 1700 },
+            { message: "Алёна", amount: 1100 },
+            { message: "Роман", amount: 1300 },
+            { message: "Дарья", amount: 1400 },
+            { message: "Евгений", amount: 1600 },
+            { message: "Светлана", amount: 1800 },
+            { message: "Григорий", amount: 1900 },
+            { message: "Нина", amount: 2100 },
+            { message: "Фёдор", amount: 2300 }
+        ];
+
+        // Генерация элементов бегущей строки
+        const track = document.querySelector('.ticker-track');
+        
+        // Дублируем для плавного цикла
+        [...donations, ...donations].forEach(d => {
+            const item = document.createElement('div');
+            item.className = 'ticker-item';
+            item.innerHTML = `
+                <div class="ticker-icon">+</div>
+                <span><strong>${d.message}</strong> пожертвовал <strong>${d.amount} ₽</strong></span>
+            `;
+            track.appendChild(item);
+        });
+    </script>
+</body>
+</html>

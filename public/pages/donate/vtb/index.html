@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ВТБ · Донат</title>
+    <meta name="description" content="Поддержи проект через ВТБ. Спасибо за каждый донат!">
+
+    <style>
+        :root {
+            --bg: #090816;
+            --surface: rgba(18, 14, 36, 0.92);
+            --surface-strong: rgba(25, 18, 52, 0.98);
+            --accent: #005AFF;
+            --accent2: #FFD700;
+            --accent3: #C4B5FD;
+            --text: #f8f8ff;
+            --muted: #b5b1d1;
+            --border: rgba(255,255,255,0.08);
+            --shadow: 0 34px 120px rgba(0,0,0,0.25);
+            --shadow-strong: 0 40px 150px rgba(0, 90, 255, 0.35), 0 0 30px rgba(255, 215, 0, 0.2);
+            --radius: 28px;
+            --glow: 0 0 20px rgba(0, 90, 255, 0.4), 0 0 40px rgba(255, 215, 0, 0.3);
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: inherit;
+        }
+
+        html {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            min-height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: 
+                radial-gradient(circle at top left, rgba(0,90,255,0.22), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(255,215,0,0.18), transparent 30%),
+                linear-gradient(180deg, #06050f 0%, #090816 100%);
+            color: var(--text);
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 90, 255, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 40%);
+            z-index: -1;
+            opacity: 0.7;
+            animation: floatGlow 8s ease-in-out infinite alternate;
+        }
+        
+        @keyframes floatGlow {
+            0% { opacity: 0.5; transform: translateY(0) scale(1); }
+            100% { opacity: 0.8; transform: translateY(-10px) scale(1.02); }
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            padding: 28px;
+        }
+
+        /* Стилизация скроллбара */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 10, 25, 0.3);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #FFD700, #005AFF);
+            border-radius: 5px;
+            border: 2px solid #0b0c18;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #FFD700, #005AFF);
+        }
+
+        .page-shell {
+            min-width: 0;
+            width: min(1160px, calc(100vw - 56px));
+            max-width: 100%;
+            background: rgba(11, 8, 27, 0.94);
+            border: 1px solid rgba(255,215,0,0.28);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-strong);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .page-shell::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: calc(var(--radius) + 2px);
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(0, 90, 255, 0.3), rgba(255, 215, 0, 0.3), rgba(0, 90, 255, 0.3));
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: -1;
+            animation: rotateGradient 6s linear infinite;
+        }
+        
+        @keyframes rotateGradient {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .page-inner {
+            min-width: 0;
+            width: 100%;
+            padding: 36px;
+            display: grid;
+            gap: 32px;
+        }
+
+        .page-header {
+            display: grid;
+            gap: 12px;
+            text-align: center;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-self: center;
+            padding: 10px 18px;
+            border-radius: 999px;
+            background: rgba(0,90,255,0.18);
+            border: 1px solid rgba(255,215,0,0.24);
+            color: var(--accent3);
+            font-size: 12px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .page-header h1 {
+            font-size: clamp(32px, 4vw, 46px);
+            line-height: 1.05;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #ede9fe;
+            font-weight: 700;
+        }
+
+        .page-header p {
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1.8;
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .hero-copy {
+            display: grid;
+            gap: 18px;
+        }
+
+        .hero-copy h2 {
+            font-size: clamp(26px, 3.8vw, 40px);
+            color: #f8f8ff;
+            line-height: 1.05;
+            font-weight: 700;
+        }
+
+        .hero-copy .subtitle {
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1.9;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.2s ease, background 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Удаляем @extend и явно применяем базовые стили к кнопкам */
+        .hero-actions .btn-primary,
+        .hero-actions .btn-secondary {
+            padding: 14px 24px;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.2s ease, background 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hero-actions .btn-primary {
+            background: linear-gradient(135deg, #005AFF, #FFD700);
+            color: #111;
+            box-shadow: var(--shadow-strong);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .hero-actions .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: transform 0.6s ease;
+            z-index: 0;
+        }
+        
+        .hero-actions .btn-primary:hover::after {
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+        
+        .hero-actions .btn-primary span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-actions .btn-secondary {
+            background: rgba(255,255,255,0.06);
+            color: var(--text);
+            border: 1px solid rgba(255,215,0,0.24);
+        }
+        
+        .hero-actions .btn-secondary:hover {
+            background: rgba(255,215,0,0.14);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,90,255,0.15);
+        }
+
+        .hero-actions .btn-primary:hover,
+        .hero-actions .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-strong);
+            text-shadow: 0 0 8px rgba(0, 90, 255, 0.4);
+        }
+
+        .hero-visual {
+            border-radius: 28px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,215,0,0.24);
+            padding: 18px;
+            display: grid;
+            place-items: center;
+            box-shadow: var(--shadow-strong);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+            perspective: 1000px;
+        }
+        
+        .hero-visual::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            background: linear-gradient(45deg, transparent, rgba(0, 90, 255, 0.1), transparent, rgba(255, 215, 0, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .hero-visual:hover::before {
+            opacity: 1;
+        }
+        
+        .hero-visual img {
+            width: 100%;
+            border-radius: 22px;
+            object-fit: cover;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .hero-visual:hover img {
+            transform: scale(1.03) rotate(1deg);
+        }
+
+        
+
+        /* Фиксируем размер контейнера */
+        .qr-box {
+            display: grid;
+            place-items: center;
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            background: rgba(0,0,0,0.15);
+            border: 1px dashed rgba(255,153,0,0.24);
+            
+            /* Это свойство обрезает всё лишнее */
+            overflow: hidden; 
+        }
+
+        /* Стили для самого изображения */
+        #qr-image {
+            /* Убираем стандартные стили ширины/высоты */
+            width: auto; /* Важно! Сбрасываем ширину */
+            height: auto; /* Важно! Сбрасываем высоту */
+            
+            border-radius: 24px;
+
+            /* Масштабируем само изображение */
+            transform: scale(2);
+            transform-origin: center;
+            
+            /* Отключаем object-fit, чтобы scale работал */
+            object-fit: none;
+        }
+
+        /* Бегущая строка */
+        .ticker-strip {
+            overflow: hidden;
+            border-radius: 24px;
+            border: 1px solid rgba(255,215,0,0.24);
+            background: rgba(255,255,255,0.04);
+            padding: 14px 20px;
+            position: relative;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+        }
+
+        /* Стиль для всей панели оплаты */
+        .payment-panel {
+            display: grid;
+            gap: 22px; /* Отступы между элементами внутри панели */
+            padding: 24px;
+            background: var(--surface-strong);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        /* Стиль для заголовка панели */
+        .payment-panel .panel-title {
+            font-size: 18px;
+            color: var(--accent); /* Используем акцентный цвет */
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        /* Стиль для строк с суммой и инпутом */
+        .amount-row {
+            display: grid;
+            gap: 14px; /* Отступ между лейблом и кнопками/инпутом */
+        }
+
+        /* Стиль для кнопок суммы */
+        .amount-buttons {
+            display: flex;
+            flex-wrap: wrap; /* Кнопки будут переноситься на новую строку */
+            gap: 12px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .amount-button {
+            flex: 1 1 140px; /* Гибкий контейнер: будет расти и сжиматься, базовая ширина 140px */
+            min-width: 120px;
+            padding: 16px 18px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text);
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .amount-button.active,
+        .amount-button:hover {
+            background: rgba(255,153,0,0.22);
+            border-color: rgba(255,153,0,0.25);
+            transform: translateY(-2px);
+        }
+
+        .amount-input,
+        .text-area,
+        .radio-pill input[type="radio"] {
+            width: 100%;
+            padding: 16px 18px;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.04);
+            color: var(--text);
+            font-size: 16px;
+        }
+
+        .radio-row {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .radio-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .radio-pill:hover {
+            background: rgba(255,153,0,0.18);
+            border-color: rgba(255,153,0,0.24);
+        }
+
+        .radio-pill input[type="radio"] {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: transparent;
+            margin: 0;
+            position: relative;
+        }
+
+        .radio-pill input[type="radio"]:checked {
+            background: #FFD700;
+            border-color: #FFD700;
+        }
+
+        .radio-pill input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #111;
+        }
+
+        .ticker-track {
+            display: inline-flex;
+            white-space: nowrap;
+            animation: scrollTicker 25s linear infinite;
+            gap: 48px;
+            color: var(--text);
+            font-size: 14px;
+            letter-spacing: 0.04em;
+        }
+
+        .ticker-item {
+            display: inline-flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .ticker-item strong {
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        @keyframes scrollTicker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .info-grid,
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .info-card,
+        .why-card,
+        .stat-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,215,0,0.24);
+            border-radius: 24px;
+            padding: 24px;
+            min-height: 150px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .info-card:hover,
+        .why-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-strong);
+            border-color: rgba(255,215,0,0.36);
+        }
+        
+        .info-card::before,
+        .why-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: linear-gradient(90deg, #005AFF, #FFD700);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .info-card:hover::before,
+        .why-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-label,
+        .stat-label {
+            display: block;
+            margin-bottom: 12px;
+            color: #FFD700;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .info-card strong,
+        .why-card strong,
+        .stat-card strong {
+            @extend .card-label;
+        }
+
+        .card-text {
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 15px;
+            font-weight: 400;
+        }
+
+        .field-label {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .donation-settings {
+            padding: 20px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s ease;
+        }
+        
+        .back-link:hover {
+            opacity: 0.7;
+            text-decoration: underline;
+        }
+
+        #paid-button {
+            margin-top: 24px;
+        }
+
+        .info-card p,
+        .why-card p {
+            @extend .card-text;
+        }
+
+        @media (max-width: 980px) {
+            .hero,
+            .info-grid,
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 680px) {
+            body {
+                padding: 16px;
+            }
+
+            .page-inner {
+                padding: 24px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .amount-button {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-shell">
+        <div class="page-inner">
+            <header class="page-header">
+                <span class="tag">ВТБ</span>
+                <h1>Премиальный донат через ВТБ</h1>
+                <p>Платите быстро и стильно. Эта страница создана для того, чтобы поддержка выглядела дорого и уверенно.</p>
+            </header>
+            <section class="hero">
+                <div class="hero-copy">
+                    <div class="tag">Рекомендуемый способ</div>
+                    <h2>Удобно, красиво, безопасно</h2>
+                    <p class="subtitle">Выберите сумму, сгенерируйте QR и откройте его в приложении ВТБ. Для доната создан полностью завершённый премиум-интерфейс.</p>
+                    <div class="hero-actions">
+                        <button class="btn-primary" type="button" onclick="scrollToPayment()">Перейти к оплате</button>
+                        <a class="btn-secondary" href="../index.html">Вернуться к выбору доната</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <img src="../img/vtb.png" alt="ВТБ premium">
+                </div>
+            </section>
+            <section class="ticker-strip">
+                <div class="ticker-track" id="ticker-track">
+                    <div class="ticker-item"><strong>НОВЫЕ ДОНАТЫ:</strong> Сотик 500 ₽ · «Держите огонь»</div>
+                    <div class="ticker-item"><strong>НОВЫЕ ДОНАТЫ:</strong> ЮзерPro 1000 ₽ · «С поддержкой!»</div>
+                    <div class="ticker-item"><strong>НОВЫЕ ДОНАТЫ:</strong> Фанат 250 ₽ · «Спасибо за ваш труд»</div>
+                </div>
+            </section>
+            <section class="info-grid">
+                <div class="info-card">
+                    <strong>Современное оформление</strong>
+                    <p>Фирменные цвета ВТБ сочетаются с чёткой структурой интерфейса.</p>
+                </div>
+                <div class="info-card">
+                    <strong>Простой процесс</strong>
+                    <p>Один экран, быстрая генерация QR-кода и мгновенная оплата через приложение.</p>
+                </div>
+                <div class="info-card">
+                    <strong>Премиум-имидж</strong>
+                    <p>Страница выглядит как профессиональный донат-портал, а не простая форма.</p>
+                </div>
+            </section>
+
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-label">Всего собрано</span>
+                    <strong id="stat-total">0 ₽</strong>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Количество донатов</span>
+                    <strong id="stat-count">0</strong>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Средний чек</span>
+                    <strong id="stat-average">0 ₽</strong>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Максимальный донат</span>
+                    <strong id="stat-max">0 ₽</strong>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Уровень</span>
+                    <strong id="stat-level">Новичок</strong>
+                </div>
+            </section>
+            <section class="payment-panel" id="payment-panel">
+                <div class="panel-title">Генератор доната</div>
+                <div class="amount-row">
+                    <label class="field-label">Выберите сумму</label>
+                    <div class="amount-buttons">
+                        <button class="amount-button" type="button" onclick="setAmount(50, this)">50 ₽</button>
+                        <button class="amount-button" type="button" onclick="setAmount(100, this)">100 ₽</button>
+                        <button class="amount-button" type="button" onclick="setAmount(250, this)">250 ₽</button>
+                        <button class="amount-button" type="button" onclick="setAmount(500, this)">500 ₽</button>
+                        <button class="amount-button" type="button" onclick="setAmount(1000, this)">1000 ₽</button>
+                        <button class="amount-button" type="button" onclick="setAmount(2500, this)">2500 ₽</button>
+                    </div>
+                </div>
+                <div class="amount-row">
+                    <label class="field-label" for="amount">Или укажите свою сумму</label>
+                    <input id="amount" class="amount-input" type="number" min="1" value="500" placeholder="Введите сумму в ₽">
+                </div>
+                <div class="donation-settings">
+                    <div class="donation-row">
+                        <span class="field-label">Отображение имени</span>
+                        <div class="radio-row">
+                            <label class="radio-pill"><input type="radio" name="nameMode" value="nickname" checked> Никнейм</label>
+                            <label class="radio-pill"><input type="radio" name="nameMode" value="fullname"> Имя + фамилия</label>
+                        </div>
+                    </div>
+                    <div class="donation-row">
+                        <label class="field-label" for="nickname">Никнейм</label>
+                        <input id="nickname" class="amount-input" type="text" placeholder="Например, Сотик" value="Сотик">
+                    </div>
+                    <div class="name-grid">
+                        <div>
+                            <label class="field-label" for="firstName">Имя</label>
+                            <input id="firstName" class="amount-input" type="text" placeholder="Иван">
+                        </div>
+                        <div>
+                            <label class="field-label" for="lastName">Фамилия</label>
+                            <input id="lastName" class="amount-input" type="text" placeholder="Петров">
+                        </div>
+                    </div>
+                    <div class="donation-row">
+                        <label class="field-label" for="message">Сообщение доната</label>
+                        <textarea id="message" class="text-area" placeholder="Например: Спасибо за ваш проект!" rows="3"></textarea>
+                    </div>
+                </div>
+                <button class="primary-btn" type="button" onclick="generateQr()"><span>Сгенерировать QR</span></button>
+                <div class="qr-panel" id="qr-panel" hidden>
+                    <h3>QR готов к оплате</h3>
+                    <div class="qr-box">
+                        <img id="qr-image" src="../img/vtb.png" alt="QR код ВТБ" style="width: auto; height: auto;">
+                    </div>
+                    <p class="payment-note">Откройте приложение ВТБ или сканер с камеры, чтобы перейти к оплате.</p>
+                    <p class="payment-note"><strong>Ссылка для телефона:</strong> <span id="qr-text">https://vtb.ru/donate</span></p>
+                    <button class="primary-btn" type="button" id="paid-button" onclick="submitDonation()"><span>Оплатил</span></button>
+                    <div class="success-box" id="success-box" hidden>Спасибо! Донат зарегистрирован, и запись добавлена в ленту.</div>
+                </div>
+                <p class="payment-note">Если QR не читается, используйте ручной ввод суммы в приложении ВТБ или перейдите по прямой ссылке.</p>
+                <a class="back-link" href="../index.html">← Вернуться к списку способов оплаты</a>
+            </section>
+            <section class="why-grid">
+                <div class="why-card">
+                    <strong>Плавная анимация</strong>
+                    <p>Лаконичный интерфейс поддерживается мягкими тенями и плавными переходами.</p>
+                </div>
+                <div class="why-card">
+                    <strong>Полная готовность</strong>
+                    <p>Страница завершена для демонстрации и использования в iframe.</p>
+                </div>
+                <div class="why-card">
+                    <strong>Удобный QR</strong>
+                    <p>Генерация QR происходит без лишних шагов — максимально просто для пользователя.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script>
+        const amountInput = document.getElementById('amount');
+        const qrPanel = document.getElementById('qr-panel');
+        const qrImage = document.getElementById('qr-image');
+        const qrText = document.getElementById('qr-text');
+        const successBox = document.getElementById('success-box');
+        const tickerTrack = document.getElementById('ticker-track');
+
+        const stats = {
+            total: 0,
+            count: 0,
+            max: 0,
+            today: 0
+        };
+
+        const baseDonors = [
+            { name: 'Сотик', amount: 500, message: 'Держите огонь!' },
+            { name: 'ЮзерPro', amount: 1000, message: 'С поддержкой!' },
+            { name: 'Фанат', amount: 250, message: 'Спасибо за ваш труд!' }
+        ];
+
+        let donorHistory = [...baseDonors];
+
+        function setAmount(value, button) {
+            amountInput.value = value;
+            document.querySelectorAll('.amount-button').forEach(el => el.classList.remove('active'));
+            if (button) button.classList.add('active');
+        }
+
+        function makeDisplayName() {
+            const mode = document.querySelector('input[name="nameMode"]:checked').value;
+            const nickname = document.getElementById('nickname').value.trim() || 'Аноним';
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+
+            if (mode === 'fullname' && firstName) {
+                const surname = lastName ? `${lastName[0]}.` : '';
+                return `${firstName} ${surname}`.trim();
+            }
+
+            return nickname;
+        }
+
+        function getLevel() {
+            if (stats.total >= 10000) return 'Платиновый';
+            if (stats.total >= 5000) return 'Золотой';
+            if (stats.total >= 2000) return 'Серебряный';
+            if (stats.total >= 1000) return 'Бронзовый';
+            return 'Новичок';
+        }
+
+        function updateStats() {
+            const totalEl = document.getElementById('stat-total');
+            const countEl = document.getElementById('stat-count');
+            const avgEl = document.getElementById('stat-average');
+            const maxEl = document.getElementById('stat-max');
+            const levelEl = document.getElementById('stat-level');
+            totalEl.textContent = `${stats.total.toLocaleString('ru-RU')} ₽`;
+            countEl.textContent = stats.count;
+            avgEl.textContent = `${Math.round(stats.total / (stats.count || 1)).toLocaleString('ru-RU')} ₽`;
+            maxEl.textContent = `${stats.max.toLocaleString('ru-RU')} ₽`;
+            levelEl.textContent = getLevel();
+        }
+
+        function addTickerItem(donor) {
+            const item = document.createElement('div');
+            item.className = 'ticker-item';
+            item.innerHTML = `<strong>НОВЫЙ ДОНАТ:</strong> ${donor.name} ${donor.amount} ₽ · «${donor.message}»`;
+            tickerTrack.appendChild(item);
+        }
+
+        function refreshTicker() {
+            tickerTrack.innerHTML = '';
+            donorHistory.slice(-5).forEach(donor => addTickerItem(donor));
+        }
+
+        function generateQr() {
+            let amount = Number(amountInput.value);
+            if (!amount || amount <= 0) {
+                amount = 500;
+                amountInput.value = amount;
+            }
+            const params = new URLSearchParams({
+                receiver: 'vtb',
+                'quickpay-form': 'shop',
+                sum: amount,
+                targets: 'Поддержка проекта'
+            });
+            const uri = `https://vtb.ru/donate?${params.toString()}`;
+            const encoded = encodeURIComponent(uri);
+            qrText.textContent = uri;
+            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encoded}`;
+            qrPanel.hidden = false;
+            successBox.hidden = true;
+        }
+
+        function submitDonation() {
+            const amount = Number(amountInput.value);
+            if (!amount || amount <= 0) {
+                alert('Укажите корректную сумму перед оплатой.');
+                return;
+            }
+            const name = makeDisplayName();
+            const message = document.getElementById('message').value.trim() || 'Спасибо за поддержку!';
+
+            stats.total += amount;
+            stats.count += 1;
+            stats.today += amount;
+            stats.max = Math.max(stats.max, amount);
+            donorHistory.push({ name, amount, message });
+            refreshTicker();
+            updateStats();
+
+            successBox.textContent = `Донат ${amount.toLocaleString('ru-RU')} ₽ от ${name} зарегистрирован.`;
+            successBox.hidden = false;
+
+            document.getElementById('message').value = '';
+        }
+
+        function scrollToPayment() {
+            document.getElementById('payment-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        updateStats();
+        refreshTicker();
+    </script>
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>СайтСотика · Донат — Мощнейшая Система Поддержки</title>
+    <meta name="description" content="Выбери способ доната. ВТБ, Сбербанк, Тинькофф, ЮMoney. Прямые реквизиты. Без комиссии.">
+
+    <style>
+        :root {
+            --bg: #02030a;
+            --bg2: #050616;
+            --bg3: #0a0c1a;
+            --card: #0b0c18;
+            --card2: #111222;
+            --accent: #ff9900;
+            --accent2: #ff4b00;
+            --accent3: #ffdd99;
+            --border: #262637;
+            --border2: #2f2f45;
+            --text: #f5f5f5;
+            --muted: #9a9ab5;
+            --danger: #ff3366;
+            --ok: #3bd16f;
+            --glass: rgba(10,10,25,0.82);
+            --glass-strong: rgba(10,10,25,0.96);
+            --shadow: 0 0 20px rgba(255,153,0,0.15);
+            --shadow-hover: 0 0 30px rgba(255,153,0,0.3);
+            --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        *,*::before,*::after { margin:0;padding:0;box-sizing:border-box; }
+
+        html {
+            height:100%;
+            font-family:'Segoe UI',system-ui,sans-serif;
+            user-select:none;
+            overflow-x:hidden;
+        }
+
+        body {
+            min-height:100%;
+            background:var(--bg);
+            color:var(--text);
+            font-family:'Segoe UI',system-ui,sans-serif;
+            position:relative;
+            user-select:none;
+            padding:30px 18px 18px;
+            display:flex;
+            flex-direction:column;
+            gap:24px;
+            z-index:1;
+        }
+
+        ::-webkit-scrollbar { width:8px; }
+        ::-webkit-scrollbar-track { background:var(--bg2);border-radius:4px; }
+        ::-webkit-scrollbar-thumb { background:var(--accent);border-radius:4px; }
+        ::-webkit-scrollbar-thumb:hover { background:var(--accent2); }
+
+        #background-canvas {
+            position:fixed;top:0;left:0;width:100%;height:100%;
+            z-index:-1;pointer-events:none;
+        }
+
+        .orbit {
+            position:absolute;border:1px solid rgba(255,153,0,0.1);
+            border-radius:50%;transform:translate(-50%,-50%);
+            pointer-events:none;z-index:-1;
+        }
+
+        .particle {
+            position:absolute;width:2px;height:2px;background:var(--accent);
+            border-radius:50%;box-shadow:0 0 8px var(--accent);
+            opacity:0.7;pointer-events:none;z-index:-1;
+        }
+
+        .star {
+            position:absolute;background:#fff;border-radius:50%;
+            filter:blur(0.5px);opacity:0.8;
+            animation:twinkle 4s infinite alternate;z-index:-1;
+        }
+
+        @keyframes twinkle { 0%{opacity:0.3}100%{opacity:0.9} }
+
+        .header {
+            text-align:center;padding:10px 0 20px;font-size:20px;
+            font-weight:700;color:var(--accent3);
+            text-shadow:0 0 10px rgba(255,153,0,0.5);
+            letter-spacing:1px;position:relative;z-index:2;
+        }
+
+        .header::after {
+            content:'';display:block;width:60px;height:3px;
+            background:linear-gradient(90deg,transparent,var(--accent),transparent);
+            margin:10px auto 0;border-radius:999px;
+        }
+
+        .donation-ticker {
+            display:block;width:100%;overflow:hidden;
+            background:rgba(255,153,0,0.08);
+            border:1px solid rgba(255,153,0,0.2);
+            border-radius:18px;padding:14px 18px;
+            margin:0 auto 22px;position:relative;z-index:2;
+        }
+
+        .donation-ticker__track {
+            display:inline-flex;gap:30px;white-space:nowrap;
+            animation:donationTicker 18s linear infinite;align-items:center;
+        }
+
+        .donation-ticker__item {
+            display:inline-flex;align-items:center;gap:10px;
+            color:var(--text);font-size:0.95rem;font-weight:600;
+        }
+
+        .donation-ticker__item strong { color:var(--accent3);font-weight:700; }
+
+        .donation-ticker__dot {
+            width:6px;height:6px;border-radius:50%;
+            background:var(--accent);flex-shrink:0;
+        }
+
+        @keyframes donationTicker {
+            0%{transform:translateX(0)}100%{transform:translateX(-50%)}
+        }
+
+        .donate-grid {
+            display:grid;grid-template-columns:repeat(2,1fr);
+            gap:18px;margin-bottom:24px;position:relative;z-index:2;
+        }
+
+        @media(max-width:1024px) { .donate-grid{grid-template-columns:1fr} }
+
+        .bank-link {
+            display:block;position:relative;overflow:hidden;
+            border-radius:18px;transition:var(--transition);
+        }
+
+        .bank-tile {
+            aspect-ratio:1/1;background:var(--glass);
+            border:1px solid var(--border2);border-radius:18px;
+            display:flex;align-items:center;justify-content:center;
+            cursor:pointer;transition:var(--transition);overflow:hidden;
+            position:relative;box-shadow:var(--shadow);z-index:2;
+        }
+
+        .bank-tile:hover {
+            box-shadow:var(--shadow-hover);
+            transform:translateY(-4px);border-color:var(--accent);
+        }
+
+        .bank-tile img {
+            width:100%;height:100%;object-fit:cover;
+            filter:brightness(0.8);transition:var(--transition);z-index:2;
+        }
+
+        .bank-tile:hover img {
+            filter:brightness(1) drop-shadow(0 0 8px rgba(255,153,0,0.5));
+        }
+
+        .glow-effect {
+            position:absolute;width:60px;height:60px;
+            background:radial-gradient(circle,var(--accent) 0%,transparent 70%);
+            opacity:0;pointer-events:none;border-radius:50%;
+            transition:opacity 0.3s ease;z-index:1;
+        }
+
+        .bank-tile:hover .glow-effect {
+            opacity:0.3;animation:pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse { 0%{transform:scale(1)}100%{transform:scale(1.2)} }
+
+        @media(max-width:768px) {
+            body{padding:20px 12px 12px;gap:16px;}
+            .header{font-size:18px;}
+            .donate-grid{gap:12px;}
+            .bank-tile{border-radius:14px;}
+        }
+
+        .hidden { display:none !important; }
+
+        .cursor-trail {
+            position:fixed;width:10px;height:10px;
+            background:var(--accent);border-radius:50%;
+            pointer-events:none;opacity:0.6;
+            transform:translate(-50%,-50%);z-index:9998;
+            transition:width 0.2s,height 0.2s;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+    <canvas id="background-canvas"></canvas>
+    <div class="cursor-trail"></div>
+
+    <div class="header">💸 Выбери способ доната</div>
+
+    <div class="donation-ticker">
+        <div class="donation-ticker__track" id="donation-ticker-track">
+            <div class="donation-ticker__item">
+                <div class="donation-ticker__dot"></div>
+                Загрузка последних донатов...
+            </div>
+        </div>
+    </div>
+
+    <div class="donate-grid">
+        <a href="vtb/index.html" class="bank-link">
+            <div class="bank-tile">
+                <img src="img/vtb.png" alt="ВТБ">
+                <div class="glow-effect"></div>
+            </div>
+        </a>
+        <a href="sber/index.html" class="bank-link">
+            <div class="bank-tile">
+                <img src="img/sber.png" alt="Сбербанк">
+                <div class="glow-effect"></div>
+            </div>
+        </a>
+        <a href="tbank/index.html" class="bank-link">
+            <div class="bank-tile">
+                <img src="img/tinkoff.png" alt="Тинькофф">
+                <div class="glow-effect"></div>
+            </div>
+        </a>
+        <a href="youmoney/index.html" class="bank-link">
+            <div class="bank-tile">
+                <img src="img/youmoney.png" alt="ЮMoney">
+                <div class="glow-effect"></div>
+            </div>
+        </a>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('background-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        function createOrbits() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const maxRadius = Math.min(centerX, centerY) * 0.8;
+            for (let i = 0; i < 5; i++) {
+                const radius = maxRadius * (0.3 + i * 0.15);
+                const orbit = document.createElement('div');
+                orbit.className = 'orbit';
+                orbit.style.width = radius * 2 + 'px';
+                orbit.style.height = radius * 2 + 'px';
+                orbit.style.left = centerX + 'px';
+                orbit.style.top = centerY + 'px';
+                document.body.appendChild(orbit);
+            }
+        }
+
+        function createParticles(count) {
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * canvas.width + 'px';
+                p.style.top = Math.random() * canvas.height + 'px';
+                document.body.appendChild(p);
+            }
+        }
+
+        function createStars(count) {
+            for (let i = 0; i < count; i++) {
+                const s = document.createElement('div');
+                s.className = 'star';
+                s.style.left = Math.random() * canvas.width + 'px';
+                s.style.top = Math.random() * canvas.height + 'px';
+                s.style.width = (Math.random() * 1.5 + 0.5) + 'px';
+                s.style.height = s.style.width;
+                s.style.opacity = Math.random() * 0.8 + 0.2;
+                s.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(s);
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const time = Date.now() * 0.001;
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const maxRadius = Math.min(centerX, centerY) * 0.8;
+            for (let i = 0; i < 5; i++) {
+                const radius = maxRadius * (0.3 + i * 0.15);
+                const angle = time * (0.5 - i * 0.08);
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+                ctx.beginPath();
+                ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = `hsl(${25 + i * 10}, 100%, 60%)`;
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x - Math.cos(angle) * 5, y - Math.sin(angle) * 5, 0.8, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255,153,0,0.3)';
+                ctx.fill();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        const cursorTrail = document.querySelector('.cursor-trail');
+        document.addEventListener('mousemove', (e) => {
+            cursorTrail.style.left = e.clientX + 'px';
+            cursorTrail.style.top = e.clientY + 'px';
+            cursorTrail.style.width = '14px';
+            cursorTrail.style.height = '14px';
+            setTimeout(() => {
+                cursorTrail.style.width = '10px';
+                cursorTrail.style.height = '10px';
+            }, 200);
+        });
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            document.querySelectorAll('.orbit,.star,.particle').forEach(el => el.remove());
+            createOrbits();
+            createStars(50);
+        });
+
+        createOrbits();
+        createParticles(30);
+        createStars(50);
+        animateParticles();
+
+        // ✅ ИСПРАВЛЕНО: переименована переменная supabase → supabaseClient
+        const supabaseClient = window.supabase.createClient(
+            'https://xdohisilunbnfqbuglwi.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhkb2hpc2lsdW5ibmZxYnVnbHdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyNjQ3MTAsImV4cCI6MjA5NDg0MDcxMH0.vUcR-YNmO5zwcogUuTxv_GFgpBzVvZvfFypNpu3EZQ'
+        );
+
+        const tickerTrack = document.getElementById('donation-ticker-track');
+
+        function renderDonationTicker(items) {
+            if (!tickerTrack) return;
+            if (!items.length) {
+                tickerTrack.innerHTML = '<div class="donation-ticker__item"><div class="donation-ticker__dot"></div>Пока нет донатов — стань первым!</div>';
+                return;
+            }
+            const html = items.map(d => `
+                <div class="donation-ticker__item">
+                    <div class="donation-ticker__dot"></div>
+                    <strong>${d.bank || 'Банк'}</strong> ${d.name || 'Аноним'} — ${d.amount ? d.amount + ' ₽' : 'сумма неизвестна'}
+                </div>
+            `).join('');
+            tickerTrack.innerHTML = html + html;
+        }
+
+        async function loadDonationTicker() {
+            if (!tickerTrack) return;
+            const { data, error } = await supabaseClient
+                .from('donations')
+                .select('name, bank, amount, created_at')
+                .order('created_at', { ascending: false })
+                .limit(10);
+
+            if (error) {
+                console.error('Ошибка загрузки донатов:', error);
+                tickerTrack.innerHTML = '<div class="donation-ticker__item"><div class="donation-ticker__dot"></div>Не удалось загрузить донаты</div>';
+                return;
+            }
+            renderDonationTicker(data || []);
+        }
+
+        loadDonationTicker();
+        setInterval(loadDonationTicker, 10000);
+
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transform = 'translateY(10px)';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                document.body.style.opacity = '1';
+                document.body.style.transform = 'translateY(0)';
+            }, 50);
+        });
+    </script>
+</body>
+</html>

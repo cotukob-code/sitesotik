@@ -1,0 +1,514 @@
+/* Токены → /css/tokens.css */
+
+/* ------------------------------
+   CORE
+------------------------------ */
+
+
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: system-ui, sans-serif;
+  background:
+    radial-gradient(circle at 0 0, #26264a 0, transparent 55%),
+    radial-gradient(circle at 100% 0, #3a1f3f 0, transparent 55%),
+    radial-gradient(circle at 50% 100%, #1b2b3f 0, transparent 60%),
+    var(--bg);
+  color: #fff;
+}
+
+/* BACKGROUND */
+.bg-orbit {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 0 0, rgba(255,255,255,0.08), transparent 55%),
+    radial-gradient(circle at 100% 0, rgba(255,153,0,0.18), transparent 55%),
+    radial-gradient(circle at 0 100%, rgba(0,180,255,0.18), transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(255,75,0,0.18), transparent 55%);
+  opacity: 0.7;
+  filter: blur(4px);
+  pointer-events: none;
+  animation: orbitPulse 18s ease-in-out infinite alternate;
+}
+
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.4;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: gridDrift 40s linear infinite;
+}
+
+.bg-lines {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(120deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(-120deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 220px 220px;
+  opacity: 0.25;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: linesDrift 60s linear infinite;
+}
+
+@keyframes orbitPulse { 0%{transform:scale(1)}100%{transform:scale(1.05)} }
+@keyframes gridDrift { 0%{transform:translate(0,0)}100%{transform:translate(-40px,-40px)} }
+@keyframes linesDrift { 0%{transform:translate(0,0)}100%{transform:translate(80px,40px)} }
+
+/* PAGE LAYOUT */
+.page-shell {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* HEADER */
+.header {
+  padding: 14px 20px;
+  border-radius: 20px;
+  background: var(--glass-strong);
+  border: 1px solid rgba(255,153,0,0.3);
+  box-shadow:
+    0 0 40px rgba(0,0,0,0.9),
+    inset 0 0 40px rgba(255,153,0,0.15);
+  backdrop-filter: blur(18px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left { display: flex; flex-direction: column; }
+.header-title {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent3);
+}
+.header-sub {
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.header-nav {
+  display: flex;
+  gap: 16px;
+  padding: 8px 16px;
+  border-radius: 14px;
+  background: rgba(255,153,0,0.08);
+  border: 1px solid rgba(255,153,0,0.25);
+  box-shadow:
+    0 0 20px rgba(0,0,0,0.6),
+    inset 0 0 20px rgba(255,153,0,0.12);
+  backdrop-filter: blur(10px);
+}
+
+.header-nav a {
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent3);
+  padding: 6px 8px;
+  border-radius: 10px;
+  transition: .2s;
+}
+
+.header-nav a:hover { background: rgba(255,153,0,0.2); color: #fff; }
+
+/* CONTENT GRID */
+.content {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 20px;
+  min-height: 0;
+}
+
+/* PANELS */
+.panel {
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 0 0, rgba(255,255,255,0.06) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(255,153,0,0.18) 0, transparent 55%),
+    var(--glass);
+  border: 1px solid rgba(255,153,0,0.25);
+  box-shadow:
+    0 0 40px rgba(0,0,0,0.95),
+    inset 0 0 40px rgba(255,153,0,0.15);
+  backdrop-filter: blur(18px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+}
+
+/* STREAM */
+.stream-title {
+  padding: 14px 20px;
+  font-size: 14px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent3);
+  background: rgba(0,0,0,0.35);
+  border-bottom: 1px solid rgba(255,153,0,0.25);
+  flex-shrink: 0;
+}
+
+.stream-box {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.stream-box video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* CHAT */
+.chat-title {
+  padding: 14px 20px;
+  font-size: 14px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent3);
+  background: rgba(0,0,0,0.35);
+  border-bottom: 1px solid rgba(255,153,0,0.25);
+  flex-shrink: 0;
+}
+
+.chat-box {
+  flex: 1;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 18px 18px 0 0;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.chat-message {
+  margin-bottom: 6px;
+  color: #e5e5f5;
+  word-break: break-word;
+}
+
+.name-setup {
+  padding: 12px;
+  background: rgba(0,0,0,0.7);
+  border-bottom: 1px solid rgba(255,153,0,0.25);
+  display: flex;
+  gap: 10px;
+}
+
+.name-setup input {
+  flex: 1;
+  padding: 10px;
+  background: #111;
+  border: 1px solid rgba(255,153,0,0.4);
+  color: #fff;
+  border-radius: 8px;
+}
+
+.name-setup button {
+  padding: 10px 16px;
+  background: var(--accent);
+  border: none;
+  color: #000;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+/* DONATE */
+.bank-tabs { display: none; }
+.bank-tab { ... }
+#donateContent { display: none; background: #000; }
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border-top: 1px solid rgba(255,153,0,0.35);
+  background: rgba(0,0,0,0.85);
+  padding: 10px;
+}
+
+.chat-input input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  outline: none;
+}
+
+.chat-input button {
+  padding: 10px 16px;
+  background: var(--accent);
+  border: none;
+  color: #000;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.chat-input button:hover { background: var(--accent2); color: #fff; }
+
+.chat-input label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--accent3);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.chat-input input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
+/* DONATE BLOCK */
+.don-wrap { ... }
+.don-title { ... }
+.don-label { ... }
+.don-input { ... }
+.don-qr { ... }
+.don-btn { ... }
+
+/* MOBILE (твоя версия) */
+@media (max-width: 900px) {
+  .content { display: block; }
+  .panel-stream { margin-bottom: 16px; }
+  .panel-chat {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100%;
+    transition: right 0.3s ease;
+    z-index: 9999;
+  }
+  .panel-chat.chat-open { right: 0; }
+  .stream-box { width: 100%; aspect-ratio: 16/9; }
+}
+
+/* ---------------------------------------------------------
+   🔥 ВЕРТИКАЛЬНЫЙ РЕЖИМ ДЛЯ ОКНА ХАБА (portrait mode)
+--------------------------------------------------------- */
+
+@media (max-aspect-ratio: 3/4) {
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .panel-stream {
+    order: 1;
+    width: 100%;
+  }
+
+  .stream-box {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+
+  .panel-chat {
+    order: 2;
+    width: 100%;
+    max-height: 60vh;
+    position: relative;
+    right: 0 !important;
+  }
+
+  .chat-box {
+    max-height: 60vh;
+  }
+
+  .chat-messages {
+    font-size: 14px;
+    padding: 14px;
+  }
+
+  .header {
+    padding: 10px 14px;
+    border-radius: 16px;
+  }
+
+  .header-title {
+    font-size: 16px;
+    letter-spacing: .14em;
+  }
+
+  .header-nav {
+    padding: 6px 10px;
+    gap: 10px;
+  }
+
+  .header-nav a {
+    font-size: 10px;
+    padding: 4px 6px;
+  }
+}
+
+/* ---------------------------------------------------------
+   🔥 ВЕРТИКАЛЬНЫЙ FALLBACK ДЛЯ УЗКИХ ОКОН
+--------------------------------------------------------- */
+
+@media (max-width: 700px) {
+
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .panel-stream,
+  .panel-chat {
+    width: 100%;
+  }
+
+  .panel-chat {
+    max-height: 60vh;
+  }
+}
+/* ---------------------------------------------------------
+   ВЕРТИКАЛЬНЫЙ РЕЖИМ — РЕАЛЬНЫЙ, РАБОЧИЙ
+--------------------------------------------------------- */
+
+@media (max-aspect-ratio: 3/4), (max-width: 700px) {
+
+  /* Контент в одну колонку */
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: auto;
+  }
+
+  /* Стрим сверху */
+  .panel-stream {
+    width: 100%;
+    order: 1;
+  }
+
+  .stream-box {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    flex-shrink: 0;
+  }
+
+  /* Чат снизу */
+  .panel-chat {
+    width: 100%;
+    order: 2;
+    max-height: 60vh;
+    position: relative;
+    right: 0 !important;
+  }
+
+  .chat-box {
+    max-height: 60vh;
+    height: 60vh;
+  }
+
+  .chat-messages {
+    padding: 14px;
+    font-size: 14px;
+  }
+
+  /* Шапка компактнее */
+  .header {
+    padding: 10px 14px;
+    border-radius: 16px;
+  }
+
+  .header-title {
+    font-size: 16px;
+    letter-spacing: .14em;
+  }
+
+  .header-nav {
+    padding: 6px 10px;
+    gap: 10px;
+  }
+
+  .header-nav a {
+    font-size: 10px;
+    padding: 4px 6px;
+  }
+}
+/* ---------------------------------------------------------
+   ВЕРТИКАЛЬНОЕ МЕНЮ — РЕАЛЬНОЕ, РАБОЧЕЕ
+--------------------------------------------------------- */
+
+@media (max-aspect-ratio: 3/4), (max-width: 700px) {
+
+  /* Шапка компактнее */
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .header-left {
+    width: 100%;
+  }
+
+  .header-title {
+    font-size: 18px;
+    letter-spacing: .14em;
+  }
+
+  .header-sub {
+    font-size: 9px;
+  }
+
+  /* МЕНЮ ВЕРТИКАЛЬНОЕ */
+  .header-nav {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 14px;
+  }
+
+  .header-nav a {
+    flex: 1 1 calc(50% - 10px);
+    text-align: center;
+    padding: 8px 10px;
+    font-size: 11px;
+    letter-spacing: .14em;
+  }
+}
